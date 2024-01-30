@@ -1,0 +1,111 @@
+module AES_Encryption_Decryption_192_TB();
+
+reg [0:127] Text128;
+reg [0:127] Text192;
+reg [0:127] Text256;
+
+wire [0:127] EncryptedText128;
+wire [0:127] EncryptedText192;
+wire [0:127] EncryptedText256;
+
+wire [0:127] DecryptedText128;
+wire [0:127] DecryptedText192;
+wire [0:127] DecryptedText256;
+
+reg [0:127] Key128Bits;
+reg [0:191] Key192Bits;
+reg [0:255] Key256Bits;
+
+reg [7:0] SuccessCounter;
+reg [7:0] FailureCounter;
+
+reg clk;
+reg reset;
+
+AESEncryption #(.Nk(4), .Nr(10)) Encryption128Bits (.EncryptedText(EncryptedText128), .Text(Text128), .Key(Key128Bits), .clk(clk), .reset(reset));
+AESEncryption #(.Nk(6), .Nr(12)) Encryption192Bits (.EncryptedText(EncryptedText192), .Text(Text192), .Key(Key192Bits), .clk(clk), .reset(reset));
+AESEncryption #(.Nk(8), .Nr(14)) Encryption256Bits (.EncryptedText(EncryptedText256), .Text(Text256), .Key(Key256Bits), .clk(clk), .reset(reset));
+
+AESDecryption #(.Nk(4), .Nr(10)) Decryption128Bits (.DecryptedText(DecryptedText128), .EncryptedText(EncryptedText128), .Key(Key128Bits), .clk(clk), .reset(reset));
+AESDecryption #(.Nk(6), .Nr(12)) Decryption192Bits (.DecryptedText(DecryptedText192), .EncryptedText(EncryptedText192), .Key(Key192Bits), .clk(clk), .reset(reset));
+AESDecryption #(.Nk(8), .Nr(14)) Decryption256Bits (.DecryptedText(DecryptedText256), .EncryptedText(EncryptedText256), .Key(Key256Bits), .clk(clk), .reset(reset));
+
+always begin
+#10 clk = ~clk;
+end
+initial begin
+SuccessCounter = 0;
+FailureCounter = 0;
+
+Text128 = 128'h00112233445566778899aabbccddeeff;
+Key128Bits = 128'h000102030405060708090a0b0c0d0e0f;
+clk = 0;
+reset = 1;
+#10
+reset = 0;
+#530
+Text192 = 128'h00112233445566778899aabbccddeeff;
+Key192Bits = 192'h000102030405060708090a0b0c0d0e0f1011121314151617;
+#1060
+Text256 = 128'h00112233445566778899aabbccddeeff;
+Key256Bits = 256'h000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f;
+#1590
+if (EncryptedText128 == 128'h69c4e0d86a7b0430d8cdb78070b4c55a && DecryptedText128 == Text128) begin
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	$display("First Testcase of 128 bits is correct!");
+	$display("Input Text = %h", Text128);
+	$display("Encrypted Text = %h", EncryptedText128);
+	$display("DecryptedText = %h", DecryptedText128);
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	SuccessCounter = SuccessCounter + 1;
+end else begin
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	$display("First Testcase of 128 bits is Incorrect!");
+	$display("Input Text = %h", Text128);
+	$display("Encrypted Text = %h", EncryptedText128);
+	$display("DecryptedText = %h", DecryptedText128);
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	FailureCounter = FailureCounter + 1;
+end
+if (EncryptedText192 == 128'hdda97ca4864cdfe06eaf70a0ec0d7191 && DecryptedText192 == Text192) begin
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	$display("First Testcase of 192 bits is correct!");
+	$display("Input Text = %h", Text192);
+	$display("Encrypted Text = %h", EncryptedText192);
+	$display("DecryptedText = %h", DecryptedText192);
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	SuccessCounter = SuccessCounter + 1;
+end else begin
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	$display("First Testcase of 192 bits is incorrect!");
+	$display("Input Text = %h", Text192);
+	$display("Encrypted Text = %h", EncryptedText192);
+	$display("DecryptedText = %h", DecryptedText192);
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	FailureCounter = FailureCounter + 1;
+end
+if (EncryptedText256 == 128'h8ea2b7ca516745bfeafc49904b496089 && DecryptedText256 == Text256) begin
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	$display("First Testcase of 256 bits is correct!");
+	$display("Input Text = %h", Text256);
+	$display("Encrypted Text = %h", EncryptedText256);
+	$display("DecryptedText = %h", DecryptedText256);
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	SuccessCounter = SuccessCounter + 1;
+end else begin
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	$display("First Testcase of 256 bits is incorrect!");
+	$display("Input Text = %h", Text256);
+	$display("Encrypted Text = %h", EncryptedText256);
+	$display("DecryptedText = %h", DecryptedText256);
+	$display("////////////////////////////////////////////////////////////////////////////////////");
+	FailureCounter = FailureCounter + 1;
+end
+$display("////////////////////////////////////////////////////////////////////////////////////");
+$display("Number of Successes = %d", SuccessCounter);
+$display("Number of Failures = %d", FailureCounter);
+$display("////////////////////////////////////////////////////////////////////////////////////");
+$finish;
+end
+
+endmodule

@@ -1,0 +1,11 @@
+module Cipher(output [127:0] Ciphered, input [127:0] Text, input [1919:0] RoundKeys);
+
+reg [127:0] State;
+wire [127:0] AddRoundKeyResult;
+AddRoundKey A(AddRoundKeyResult, Text, RoundKeys[127:0]);
+
+always@(*) begin
+	State = Text;
+	forever i will 
+end
+endmodule 

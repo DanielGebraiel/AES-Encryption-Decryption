@@ -1,0 +1,31 @@
+module AES_Encryption_Decryption_TB()
+
+reg Text [0:127];
+wire EncryptedText [0:127];
+wire DecryptedText [0:127];
+
+reg Key128Bits [0:127];
+reg Key192Bits [0:191];
+reg Key256Bits [0:255];
+
+AESEncryption #(.Nk(4), .Nr(10)) Encryption128Bits (.EncryptedText(EncryptedText), .Text(Text), .Key(Key128Bits));
+AESEncryption #(.Nk(6), .Nr(12)) Encryption192Bits (.EncryptedText(EncryptedText), .Text(Text), .Key(Key192Bits));
+AESEncryption #(.Nk(8), .Nr(14)) Encryption256Bits (.EncryptedText(EncryptedText), .Text(Text), .Key(Key256Bits));
+
+AESDecryption #(.Nk(4), .Nr(10)) Decryption128Bits (.DecryptedText(DecryptedText), .EncryptedText(Text), .Key(Key128Bits));
+AESDecryption #(.Nk(6), .Nr(12)) Decryption192Bits (.DecryptedText(DecryptedText), .EncryptedText(Text), .Key(Key192Bits));
+AESDecryption #(.Nk(8), .Nr(14)) Decryption256Bits (.DecryptedText(DecryptedText), .EncryptedText(Text), .Key(Key256Bits));
+
+initial begin
+
+Text = 128'h00112233445566778899aabbccddeeff;
+Key128Bits = 128'h000102030405060708090a0b0c0d0e0f;
+
+if (EncryptedText == 128'h69c4e0d86a7b0430d8cdb78070b4c55a && DecryptedText == Text) begin
+	$display("Correct!");
+end
+
+$finish;
+end
+
+endmodule 

@@ -1,0 +1,20 @@
+module InvCipher #(parameter Nr = 10)
+(output [0:127] Ciphered, input [0:127] Text, input [0:128*(Nr+1)-1] RoundKeys);
+
+wire [0:127] states [Nr:0];
+wire [0:127] InvSubBytesState;
+wire [0:127] InvShiftRowState;
+wire [0:127] InvMixColumnState;
+AddRoundKey A0(.outState(states[Nr]), .inState(Text), .RoundKey(RoundKeys[128*Nr +: 128]));
+genvar i;
+
+generate
+	for (i=Nr-1;i>0;i=i-1) begin: RoundLoop
+		DecryptionRound Er(states[i], states[i+1], RoundKeys[128*(i)+:128]);
+	end
+	InvSubState Sf(InvSubBytesState, states[1]);
+	InvShiftRows Rf(InvShiftRowState, InvSubBytesState);
+	AddRoundKey Af(states[0], InvShiftRowState, RoundKeys[0:127]);
+	assign Ciphered = states[0];
+endgenerate
+endmodule 

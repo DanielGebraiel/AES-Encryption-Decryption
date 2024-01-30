@@ -1,0 +1,14 @@
+module MixColumnsInv(output reg[127:0] outState, input [127:0] inState);
+
+integer i;
+always @(*) begin
+	for (i=0; i<=96; i=i+32) begin
+
+	outState[7+i+:8] = 4'he*inState[7+i+:8] ^ 4'hb*inState[15+i+:8] ^ 4'hd*inState[23+i+:8] ^ 9*inState[31+i+:8];
+	outState[15+i+:8] = 9*inState[7+i+:8] ^ 4'he*inState[15+i+:8] ^ 4'hb*inState[23+i+:8] ^ 4'hd*inState[31+i+:8];
+	outState[23+i+:8] = 4'hd*inState[7+i+:8] ^ 9*inState[15+i+:8] ^ 4'he*inState[23+i+:8] ^ 4'hb*inState[31+i+:8];
+	outState[31+i+:8] = 4'hb*inState[7+i+:8] ^ 4'hd*inState[15+i+:8] ^ 9*inState[23+i+:8] ^ 4'he*inState[31+i+:8];
+
+	end
+end
+endmodule 

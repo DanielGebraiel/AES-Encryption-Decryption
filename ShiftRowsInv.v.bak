@@ -1,0 +1,6 @@
+module ShiftRowsInv(output [127:0] outState, input [127:0] inState )
+
+assign outState[31:0] = {inState[63:56], inState[87:80], inState[111:104], inState[7:0]};		//1st Column
+assign outState[63:32] = {inState[95:88], inState[119:112], inState[15:8], inState[39:32]};	//2nd column
+assign outState[95:64] = {inState[127:120], inState[23:16], inState[47:40], inState[71:64]};	//3rd column
+assign outState[127:96] = {inState[31:24], inState[55:48], inState[79:72], inState[103:96]};	//4th column

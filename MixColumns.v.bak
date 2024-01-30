@@ -1,0 +1,5 @@
+module MixColumns(output [127:0] outState, input [127:0] inState);
+
+outState[7:0] = {2*inState[7:0] ^ 3*inState[15:8] ^ inState[23:16] ^ inState[31:24]};
+
+endmodule 

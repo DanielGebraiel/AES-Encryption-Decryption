@@ -1,0 +1,40 @@
+module Wrapper(checkdata, enable, load, reset, clk);
+
+output checkdata;
+input enable;
+input load;
+input reset;
+input clk;
+
+wire data_out;
+wire data_in;
+
+reg [14:0] seed;
+reg [6:0] counter;
+reg [95:0] in;
+reg [95:0] expectedout;
+reg [95:0] out;
+
+Randomizer rand(.data_out(data_out), .data_in(data_in), .clk(clk), .reset(reset), .load(load), .enable(enable), .seed(seed));
+
+always @ (posedge clk)
+	counter = counter +1;
+
+initial begin 
+	checkdata = 0;
+	seed = 15'b011011100010101;
+	in = 96'hACBCD2114DAE1577C6DBF4C9;
+	expectedout = 96'h558AC4A53A1724E163AC2BF9;
+	out = 96'0;
+end 
+
+
+always @ (posedge clk or posedge reset) begin
+	if (counter <= 95) begin
+		data_in = in[counter];
+		out[counter] = data_out;
+	else if (counter == 96)
+		if (expectedout == out)
+			checkdata = 1;
+	end
+end 

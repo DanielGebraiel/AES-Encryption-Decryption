@@ -1,0 +1,12 @@
+module DecryptionRound(output [0:127] outState, input [0:127] inState, input [0:127] roundKey);
+
+wire [0:127] InvSubBytesState;
+wire [0:127] InvShiftRowState;
+wire [0:127] InvMixColumnState;
+
+InvSubState Si(InvSubBytesState, inState);
+InvShiftRows Ri(InvShiftRowState, InvSubBytesState);
+InvMixColumns Ci(InvMixColumnState, InvShiftRowState);
+AddRoundKey Ai(outState, InvMixColumnState, roundKey);
+	
+endmodule 

@@ -1,0 +1,7 @@
+
+module KeyExpansion
+//#(parameter Nk = 4)
+(output [127:0] RoundKeys [Nr:0], input [32*Nk-1:0] Key,input Nk);
+
+
+endmodule 

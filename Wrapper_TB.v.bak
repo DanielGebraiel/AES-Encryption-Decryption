@@ -1,0 +1,20 @@
+module Wrapper_TB();
+wire led1;
+wire led2;
+reg clk;
+reg reset;
+
+Wrapper W(.led1(led1),.led2(led2),.clk(clk),.reset(reset));
+
+always begin
+#10 clk = ~clk;
+end
+
+initial begin
+	clk=0;
+	reset=1;
+	#50
+	reset=0;
+	#2000;
+end
+endmodule

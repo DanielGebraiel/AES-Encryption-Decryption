@@ -1,0 +1,20 @@
+module AddRoundKey(output [127:0] outState, input [127:0] inState, input [127:0] RoundKey);
+
+assign outState[7:0] = inState[7:0] ^ RoundKey[7:0];
+assign outState[15:8] = inState[15:8] ^ RoundKey[15:8];
+assign outState[23:16] = inState[23:16] ^ RoundKey[23:16];
+assign outState[31:24] = inState[31:24] ^ RoundKey[31:24];
+assign outState[39:32] = inState[39:32] ^ RoundKey[39:32];
+assign outState[47:40] = inState[47:40] ^ RoundKey[47:40];
+assign outState[55:48] = inState[55:48] ^ RoundKey[55:48];
+assign outState[63:56] = inState[63:56] ^ RoundKey[63:56];
+assign outState[71:64] = inState[71:64] ^ RoundKey[71:64];
+assign outState[79:72] = inState[79:72] ^ RoundKey[79:72];
+assign outState[87:80] = inState[87:80] ^ RoundKey[87:80];
+assign outState[95:88] = inState[95:88] ^ RoundKey[95:88];
+assign outState[103:96] = inState[103:96] ^ RoundKey[103:96];
+assign outState[111:104] = inState[111:104] ^ RoundKey[111:104];
+assign outState[119:112] = inState[119:112] ^ RoundKey[119:112];
+assign outState[127:120] = inState[127:120] ^ RoundKey[127:120];
+
+endmodule 

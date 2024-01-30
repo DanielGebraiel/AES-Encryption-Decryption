@@ -1,0 +1,8 @@
+module SubWord(output [31:0] out, input [31:0] in);
+
+SubBytes(out[7:0],in [7:0]);
+SubBytes(out[15:8],in [15:8]);
+SubBytes(out[23:16],in [23:16]);
+SubBytes(out[31:24],in [31:24]);
+
+endmodule 
