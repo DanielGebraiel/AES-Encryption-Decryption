@@ -9,3 +9,6 @@ This is a hardware implemented project using verilog designed to encrypt any mes
 - Can Encrypt using keys of sizes 128, 192, 256 bits
 - Contains a wrapper which has two outputs which are encryped correctly and decrypted correctly
 - Contains port mapping to the DE1-SoC board
+- Utilization (128, 192) = 34%
+- Utilization (256) = 41%
+- Working Frequency = 37.09 MHz
